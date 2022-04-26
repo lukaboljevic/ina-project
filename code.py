@@ -1,7 +1,7 @@
 import cpnet
 import networkx as nx
 import matplotlib.pyplot as plt
-from utils import read_graph, degree_distribution, degree_sequences
+from utils import read_graph, degree_distribution, degree_sequences, continuous
 
 def example():
     # Example code taken from 
@@ -60,7 +60,10 @@ def plot(graphname, directed, algorithm: cpnet.CPAlgorithm, core_threshold=0.7, 
     plt.ylabel("Degree distributions")
     plt.xscale("log")
     plt.yscale("log")
-    plt.title(f"Degree distributions for {name} algorithm, \"{G.name}\" graph")
+    title = f"Degree distributions for \"{G.name}\" graph, {name} algorithm"
+    if continuous(algorithm):
+        title += f" (threshold {core_threshold})"
+    plt.title(title)
     plt.legend()
     plt.show()
 

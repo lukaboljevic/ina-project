@@ -23,6 +23,10 @@ algorithm_type = {
     "Rossa": CONTINUOUS,
 }
 
+def continuous(algorithm):
+    algo_name = algorithm.__class__.__name__
+    return algorithm_type[algo_name] == CONTINUOUS
+
 def degree_sequences(graph: nx.Graph, algorithm: cpnet.CPAlgorithm, coreness_map, core_threshold=0.7):
     """
     For a given graph (and algorithm), return the core 
