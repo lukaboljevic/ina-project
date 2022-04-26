@@ -1,0 +1,46 @@
+Everything here was tested on the social.net graph
+
+DISCRETE
+    BE - ultra super mega slow
+    probably all others are ultra slow =(
+    I know they were for the java.net graph so...
+    it's even worse here
+
+MULTI-CORE
+    KM_ER - quite fast
+    KM_config - quite fast
+    Divisive - quite fast
+
+    I got really promising results for all 3,
+    two KM algorithms are quite similar
+
+CONTINUOUS
+    Rossa - very fast
+    dividing deg. distributions all with n
+    or len(list) gives same result, just when
+    divided by n they're pushed down more
+    - not 100% true but it's similar enough
+
+    - better to maybe divide by len(list)
+
+        0.7 gave something
+        0.6 too
+        0.8 eeeh
+
+    MINRES - very fast, even w/ more runs (not rly necessary)
+    ~0.6 is maximum "coreness"
+        0.4 gave a VERY interesting result
+        0.5 too
+        0.3 too
+        okay this algorithm may be quite intriguing to explore!
+
+    Rombach - rather slow even w/ 10 runs (I would say around 2 mins)
+    ~1 maximum coreness 
+        0.7 gave an interesting result
+            similar story to 0.6
+            and both 0.7 and 0.6 give a similar plot to the one from Lovro
+        0.6 too, not entirely power law in the core but after some cutoff it is
+            most nodes are in core here
+        0.8 similar story to .6 and .7
+
+        this one will be interesting to explore too!
