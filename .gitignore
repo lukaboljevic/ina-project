@@ -1,2 +1,3 @@
 venv/
 forceatlas2/
+__pycache__/
