@@ -1,5 +1,54 @@
 import networkx as nx
 from collections import defaultdict
+import cpnet
+
+DISCRETE = 0
+CONTINUOUS = 1
+
+algorithm_type = {
+    # Slow 
+    "BE": DISCRETE,
+    "Lip": DISCRETE,
+    "LapCore": DISCRETE,
+    "LapSgnCore": DISCRETE,
+    "Surprise": DISCRETE,
+    "LowRankCore": DISCRETE,
+    # Rather fast
+    "KM_ER": DISCRETE,
+    "KM_config": DISCRETE,
+    "Divisive": DISCRETE,
+    # Fast
+    "MINRES": CONTINUOUS,
+    "Rombach": CONTINUOUS,
+    "Rossa": CONTINUOUS,
+}
+
+def degree_sequences(graph: nx.Graph, algorithm: cpnet.CPAlgorithm, coreness_map, core_threshold=0.7):
+    """
+    For a given graph (and algorithm), return the core 
+    and periphery degree sequences.
+
+    Parameters
+    ----------
+    graph: nx.Graph object
+    algorithm: one of cpnet core periphery decomposition algorithms
+    coreness_map: a dictionary returned by the same algorithm, which tells us 
+        the coreness value of each node (0 or 1 if discrete algorithm,
+        value between 0 and 1 for a continuous algorithm)
+    core_threshold: meaningful only when we're talking about a continuous
+        algorithm - any node whose coreness value is above this threshold
+        is considered as part of the core, otherwise it's considered as 
+        part of the periphery
+    """
+    algo_name = algorithm.__class__.__name__
+    if algorithm_type[algo_name] == DISCRETE:
+        periphery_degs = [graph.degree[node] for node in graph.nodes() if coreness_map[node] == 0]
+        core_degs = [graph.degree[node] for node in graph.nodes() if coreness_map[node] == 1]
+    else:
+        periphery_degs = [graph.degree[node] for node in graph.nodes() if coreness_map[node] < core_threshold]
+        core_degs = [graph.degree[node] for node in graph.nodes() if coreness_map[node] >= core_threshold]
+    
+    return periphery_degs, core_degs
 
 def read_graph(graphname, directed=False):
     """

@@ -1,7 +1,7 @@
 import cpnet
 import networkx as nx
 import matplotlib.pyplot as plt
-from utils import read_graph, degree_distribution
+from utils import read_graph, degree_distribution, degree_sequences
 
 def example():
     # Example code taken from 
@@ -13,7 +13,7 @@ def example():
     name = algorithm.__class__.__name__
     algorithm.detect(G)
     c = algorithm.get_pair_id()
-    x = algorithm.get_coreness() # core = 1, periphery = 0
+    x = algorithm.get_coreness() # core = 1, periphery = 0 (for discrete algos)
 
     plt.figure(figsize=(10, 7))
     plt.title(f"Core periphery decomposition, {name} algorithm, {G.name} graph")
@@ -27,29 +27,31 @@ def example():
     """
     plt.show()
 
-def plot(graphname, directed):
+def plot(graphname, directed, algorithm: cpnet.CPAlgorithm, core_threshold=0.7, plot_decomp=False):
     G = read_graph(graphname, directed)
     n = G.number_of_nodes()
-    algorithm = cpnet.Surprise()
     name = algorithm.__class__.__name__
+
     algorithm.detect(G)
     c = algorithm.get_pair_id()
-    x = algorithm.get_coreness() # core = 1, periphery = 0
-    print("Core periphery decomposition completed")
-    plt.figure(figsize=(10, 7))
-    plt.title(f"Core periphery decomposition, {name} algorithm, {G.name} graph")
-    ax = plt.gca()
-    ax, pos = cpnet.draw(G, c, x, ax)
-    plt.show()
+    x = algorithm.get_coreness()
+    # print("Core periphery decomposition completed")
+
+    if plot_decomp:
+        plt.figure(figsize=(10, 7))
+        plt.title(f"Core periphery decomposition, {name} algorithm, {G.name} graph")
+        ax = plt.gca()
+        ax, pos = cpnet.draw(G, c, x, ax, draw_edge=False)
+        plt.show()
 
     graph_degs = [G.degree[node] for node in G.nodes()]
-    periphery_degs = [G.degree[node] for node in G.nodes() if x[node] == 0]
-    core_degs = [G.degree[node] for node in G.nodes() if x[node] == 1]
+    periphery_degs, core_degs = degree_sequences(G, algorithm, x, core_threshold=core_threshold)
 
     graph_dist = degree_distribution(graph_degs, n)
     periphery_dist = degree_distribution(periphery_degs, len(periphery_degs))
     core_dist = degree_distribution(core_degs, len(core_degs))
 
+    plt.style.use("ggplot")
     plt.figure(figsize=(12, 7))
     plt.plot(graph_dist.keys(), graph_dist.values(), 'o', color="firebrick", label=f"Graph dist.")
     plt.plot(periphery_dist.keys(), periphery_dist.values(), 'x', color="forestgreen", label=f"Periphery dist.")
@@ -58,9 +60,9 @@ def plot(graphname, directed):
     plt.ylabel("Degree distributions")
     plt.xscale("log")
     plt.yscale("log")
-    plt.title(f"Distributions for {name} algorithm, {G.name} graph")
+    plt.title(f"Degree distributions for {name} algorithm, \"{G.name}\" graph")
     plt.legend()
     plt.show()
 
 # example()
-plot("java", False)
+plot("social", False, cpnet.MINRES(), core_threshold=0.5)
