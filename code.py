@@ -1,34 +1,18 @@
+import os
 import cpnet
 import networkx as nx
 import matplotlib.pyplot as plt
-from utils import read_graph, degree_distribution, degree_sequences, continuous
-
-def example():
-    # Example code taken from 
-    # https://github.com/skojaku/core-periphery-detection/blob/master/notebooks/example1.ipynb
-
-    G = nx.karate_club_graph()
-    n = G.number_of_nodes()
-    algorithm = cpnet.Surprise(20)
-    name = algorithm.__class__.__name__
-    algorithm.detect(G)
-    c = algorithm.get_pair_id()
-    x = algorithm.get_coreness() # core = 1, periphery = 0 (for discrete algos)
-
-    plt.figure(figsize=(10, 7))
-    plt.title(f"Core periphery decomposition, {name} algorithm, {G.name} graph")
-    ax = plt.gca()
-    ax, pos = cpnet.draw(G, c, x, ax) 
-    """
-    pos is a dict {node_id: (x, y)} where node_id is a node id
-    given by G.nodes(), and (x, y) is the (x, y) coordinate
-    of that node on the plot. Useful when testing out different
-    core periphery decomposition algorithms on the same graph.
-    """
-    plt.show()
+from utils import read_net, read_csv, degree_distribution, degree_sequences, continuous
 
 def plot(graphname, directed, algorithm: cpnet.CPAlgorithm, core_threshold=0.7, plot_decomp=False):
-    G = read_graph(graphname, directed)
+    try:
+        # csv's are more common so try that first
+        G = read_csv(graphname, directed)
+    except FileNotFoundError:
+        G = read_net(graphname, directed)
+
+    print("Graph read!")
+    
     n = G.number_of_nodes()
     name = algorithm.__class__.__name__
 
@@ -37,11 +21,19 @@ def plot(graphname, directed, algorithm: cpnet.CPAlgorithm, core_threshold=0.7, 
     x = algorithm.get_coreness()
     # print("Core periphery decomposition completed")
 
+    # TODO: set core_threshold to like idk, 70 or 80 or whatever% of max coreness value returned by algo
+
     if plot_decomp:
         plt.figure(figsize=(10, 7))
         plt.title(f"Core periphery decomposition, {name} algorithm, {G.name} graph")
         ax = plt.gca()
         ax, pos = cpnet.draw(G, c, x, ax, draw_edge=False)
+        """
+        pos is a dict {node_id: (x, y)} where node_id is a node id
+        given by G.nodes(), and (x, y) is the (x, y) coordinate
+        of that node on the plot. Useful when testing out different
+        core periphery decomposition algorithms on the same graph.
+        """
         plt.show()
 
     graph_degs = [G.degree[node] for node in G.nodes()]
@@ -67,5 +59,22 @@ def plot(graphname, directed, algorithm: cpnet.CPAlgorithm, core_threshold=0.7, 
     plt.legend()
     plt.show()
 
-# example()
-plot("social", False, cpnet.MINRES(), core_threshold=0.5)
+if __name__ == "__main__":
+    graphs = [
+        # Undirected
+        # ("dblp", False),
+        ("movielens", False),
+        ("social", False),
+        # ("wordnet", False),
+
+        # Directed
+        # ("anybeat", True),
+        ("cora", True),
+        # ("enron", True),
+        ("linux", True),
+        # ("nec", True),
+        # ("stanford", True),
+    ]
+
+    for graph_info in graphs:
+        plot(*graph_info, algorithm=cpnet.Rossa(), core_threshold=0.6)

@@ -1,0 +1,53 @@
+==================
+=== UNDIRECTED ===
+==================
+
+### Social ###
+    social.net - homework 2 (smaller)
+    dblp - https://networks.skewed.de/net/dblp_coauthor_snap
+
+### Informational ###
+    movielens_100k - https://networks.skewed.de/net/movielens_100k (smaller)
+        bipartite:
+        Left nodes are tags and right nodes are movies. An edge shows that a tag was applied to a movie.
+
+    wordnet - https://networks.skewed.de/net/wordnet
+        Node is a word, and edge denotes relationships between words (synonymy, hyperonymy, meronymy, etc.)
+
+### Biological ###
+
+### Technological ###
+
+### Economical ###
+
+================
+=== DIRECTED ===
+================
+
+### Social ###
+    anybeat - https://networks.skewed.de/net/anybeat (smaller)
+        Nodes are users and links represent friendships. 
+        The edge direction (i, j) denotes the user i follows user j.
+
+    enron.net - vaje 6, email network
+        Node i links to node j if i sent at least one email to address j.
+
+### Biological ###
+
+
+### Economical ###
+
+
+### Technological ###
+    linux - https://networks.skewed.de/net/linux (smaller), not perfect
+        A network of Linux (v3.16) source code file inclusion. 
+        Nodes represent source files and a directed edge indicates if one file includes another.
+
+    nec.net - vaje 11, Internet overlay map
+
+### Informational ###
+    cora - https://networks.skewed.de/net/cora (smaller)
+        If a paper i cites a paper j also in this data set, then a directed edge connects i to j.
+
+    stanford_web - https://networks.skewed.de/net/stanford_web
+        Nodes represent pages and directed edges represent hyperlinks between them.

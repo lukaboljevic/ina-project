@@ -1,0 +1,6 @@
+# prop_name, value
+name,dblp_coauthor_snap
+description,"A coauthorship network extracted from the DBLP computer science manuscript database, in 2012. This network is a one-mode projection from the bipartite graph of computer scientists and their publications."
+citation,"['J. Yang and J. Leskovec. \"Defining and Evaluating Network Communities based on Ground-truth.\" Proc. IEEE Internat. Conf. on Data Mining (ICDM 2012). arxiv:1205.6233, http://arxiv.org/abs/1205.6233']"
+url,http://snap.stanford.edu/data/com-DBLP.html
+tags,"['Social', 'Collaboration', 'Unweighted', 'Metadata', 'Projection']"

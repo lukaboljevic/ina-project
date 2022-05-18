@@ -1,4 +1,5 @@
 import networkx as nx
+import pandas as pd
 from collections import defaultdict
 import cpnet
 
@@ -17,9 +18,9 @@ algorithm_type = {
     "KM_ER": DISCRETE,
     "KM_config": DISCRETE,
     "Divisive": DISCRETE,
+    "Rombach": CONTINUOUS,
     # Fast
     "MINRES": CONTINUOUS,
-    "Rombach": CONTINUOUS,
     "Rossa": CONTINUOUS,
 }
 
@@ -54,10 +55,13 @@ def degree_sequences(graph: nx.Graph, algorithm: cpnet.CPAlgorithm, coreness_map
     
     return periphery_degs, core_degs
 
-def read_graph(graphname, directed=False):
+def read_net(graphname, directed=False):
     """
-    Read a data/graphname.net file.
-    Parameter directed indicates whether the graph is directed.
+    Read a graph from the given file. 
+
+    Parameter "graphname" is given without .net extension.
+
+    Parameter "directed" indicates whether the graph is directed.
     By default it is False, meaning the function returns a Graph object.
     In the case it's True, the function returns a DiGraph object.
     """
@@ -65,7 +69,10 @@ def read_graph(graphname, directed=False):
         graph = nx.DiGraph(name=graphname)
     else:
         graph = nx.Graph(name=graphname)
-    with open(f"data/{graphname}.net", 'r', encoding='utf8') as f:
+
+    folder = "directed" if directed else "undirected"
+    path = f"data/{folder}/{graphname}.net"
+    with open(path, 'r', encoding='utf8') as f:
         f.readline()
         
         for line in f:
@@ -74,14 +81,42 @@ def read_graph(graphname, directed=False):
             else:
                 node_info = line.split("\"")
                 node = int(node_info[0]) - 1
-                label = node_info[1]
-                cluster = int(node_info[2]) if len(node_info) > 2 and len(node_info[2].strip()) > 0 else None
-                graph.add_node(node, label=label, cluster=cluster)
+                graph.add_node(node)
 
         # add edges
         for line in f:
             node1_str, node2_str = line.split()[:2]
             graph.add_edge(int(node1_str) - 1, int(node2_str) - 1)
+
+    return graph
+
+def read_csv(graphname, directed=False):
+    """
+    Read a graph from pairs of .csv files. 
+
+    Parameter "graphname" is given without any extensions or additional stuff.
+
+    Parameter "directed" indicates whether the graph is directed.
+    By default it is False, meaning the function returns a Graph object.
+    In the case it's True, the function returns a DiGraph object.
+    """
+    if directed:
+        graph = nx.DiGraph(name=graphname)
+    else:
+        graph = nx.Graph(name=graphname)
+
+    folder = "directed" if directed else "undirected"
+    path = f"data/{folder}/{graphname}"
+    
+    nodes = pd.read_csv(path + "_nodes.csv")
+    graph.add_nodes_from(range(len(nodes)))
+
+    edges = pd.read_csv(path + "_edges.csv")
+    # Adding edges like this is WAY faster than iterating and adding,
+    # especially for larger graphs with hundreds of thousands of edges.
+    # For stanford_web graph with 2312497 edges, it took less than 
+    # 6 seconds to add all of them.
+    graph.add_edges_from(zip(edges["# source"], edges[" target"]))
 
     return graph
 
