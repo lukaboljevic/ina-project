@@ -15,10 +15,12 @@
         Node is a word, and edge denotes relationships between words (synonymy, hyperonymy, meronymy, etc.)
 
 ### Biological ###
+    nematode_mammal - https://networks.skewed.de/net/nematode_mammal (~30k nodes)
+        A global interaction web of interactions between nematodes and their host mammal species, 
+        extracted from the helminthR package and dataset. Nodes are annotated with species-level 
+        information. (multiple networks?)
 
 ### Technological ###
-
-### Economical ###
 
 ================
 === DIRECTED ===
@@ -33,17 +35,28 @@
         Node i links to node j if i sent at least one email to address j.
 
 ### Biological ###
-
-
-### Economical ###
-
+    genetic_multiplex (Homo) - https://networks.skewed.de/net/genetic_multiplex (~18k nodes)
+        Multiplex networks representing different types of genetic interactions, for different 
+        organisms. Layers represent (i) physical, (ii) association, (iii) co-localization, (iv) 
+        direct, and (v) suppressive, (vi) additive or synthetic genetic interaction. Edge direction 
+        (i,j) indicates gene i interacting with gene j. (multiple networks?)
 
 ### Technological ###
     linux - https://networks.skewed.de/net/linux (smaller), not perfect
         A network of Linux (v3.16) source code file inclusion. 
         Nodes represent source files and a directed edge indicates if one file includes another.
 
+    caida_as - https://networks.skewed.de/net/caida_as (~26k nodes, smaller, maybe better than linux?)
+        A sequence of 122 network snapshots denoting Autonomous System (AS) relationships on the 
+        Internet, from 2004-2007, inferred using the Serial-1 method from RouteViews BGP table 
+        snapshots and a set of heuristics.
+
     nec.net - vaje 11, Internet overlay map
+
+    python_dependency - https://networks.skewed.de/net/python_dependency (We already have a big 
+    directed network for this domain, but could be useful) (~58k nodes)
+        Python's package dependency networks. Nodes in the network are Python's packages registered 
+        to PyPI and edges are dependencies among packages.
 
 ### Informational ###
     cora - https://networks.skewed.de/net/cora (smaller)

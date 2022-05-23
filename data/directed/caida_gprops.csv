@@ -1,0 +1,6 @@
+# prop_name, value
+name,caida_as (20071105)
+description,"A sequence of 122 network snapshots denoting Autonomous System (AS) relationships on the Internet, from 2004-2007, inferred using the Serial-1 method from RouteViews BGP table snapshots and a set of heuristics."
+citation,"['The CAIDA AS Relationships Dataset 2004-2007. http://www.caida.org/data/as-relationships/, http://www.caida.org/data/as-relationships/']"
+url,http://snap.stanford.edu/data/as-caida.html
+tags,"['Technological', 'Communication', 'Unweighted', 'Temporal']"

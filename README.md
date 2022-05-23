@@ -8,4 +8,3 @@ pip install .
 ```
 
 Next, install the requirements from `requirements.txt` with `pip install -r requirements.txt`.
-

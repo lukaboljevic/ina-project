@@ -16,9 +16,9 @@ def plot(graphname, directed, algorithm: cpnet.CPAlgorithm, core_threshold=0.7, 
     n = G.number_of_nodes()
     name = algorithm.__class__.__name__
 
-    algorithm.detect(G)
-    c = algorithm.get_pair_id()
-    x = algorithm.get_coreness()
+    # algorithm.detect(G)
+    # c = algorithm.get_pair_id()
+    # x = algorithm.get_coreness()
     # print("Core periphery decomposition completed")
 
     # TODO: set core_threshold to like idk, 70 or 80 or whatever% of max coreness value returned by algo
@@ -37,17 +37,17 @@ def plot(graphname, directed, algorithm: cpnet.CPAlgorithm, core_threshold=0.7, 
         plt.show()
 
     graph_degs = [G.degree[node] for node in G.nodes()]
-    periphery_degs, core_degs = degree_sequences(G, algorithm, x, core_threshold=core_threshold)
+    # periphery_degs, core_degs = degree_sequences(G, algorithm, x, core_threshold=core_threshold)
 
     graph_dist = degree_distribution(graph_degs, n)
-    periphery_dist = degree_distribution(periphery_degs, len(periphery_degs))
-    core_dist = degree_distribution(core_degs, len(core_degs))
+    # periphery_dist = degree_distribution(periphery_degs, len(periphery_degs))
+    # core_dist = degree_distribution(core_degs, len(core_degs))
 
     plt.style.use("ggplot")
     plt.figure(figsize=(12, 7))
     plt.plot(graph_dist.keys(), graph_dist.values(), 'o', color="firebrick", label=f"Graph dist.")
-    plt.plot(periphery_dist.keys(), periphery_dist.values(), 'x', color="forestgreen", label=f"Periphery dist.")
-    plt.plot(core_dist.keys(), core_dist.values(), '*', color="goldenrod", label=f"Core dist.")
+    # plt.plot(periphery_dist.keys(), periphery_dist.values(), 'x', color="forestgreen", label=f"Periphery dist.")
+    # plt.plot(core_dist.keys(), core_dist.values(), '*', color="goldenrod", label=f"Core dist.")
     plt.xlabel("Degrees")
     plt.ylabel("Degree distributions")
     plt.xscale("log")
@@ -63,17 +63,22 @@ if __name__ == "__main__":
     graphs = [
         # Undirected
         # ("dblp", False),
-        ("movielens", False),
-        ("social", False),
+        # ("movielens", False),
+        # ("social", False),
         # ("wordnet", False),
+        # ("genetic_multiplex", False),
+        # ("nematode_mammal", False),
 
         # Directed
         # ("anybeat", True),
-        ("cora", True),
+        # ("cora", True),
         # ("enron", True),
-        ("linux", True),
+        # ("linux", True),
         # ("nec", True),
         # ("stanford", True),
+        # ("genetic_multiplex", True),
+        # ("fly_hemibrain", True)
+        ("caida", True)
     ]
 
     for graph_info in graphs:
