@@ -6,23 +6,24 @@ DISCRETE = 0
 CONTINUOUS = 1
 
 algorithm_type = {
-    # Slow 
-    "BE": DISCRETE,
-    "Lip": DISCRETE,
-    "LapCore": DISCRETE,
-    "LapSgnCore": DISCRETE,
-    "Surprise": DISCRETE,
-    "LowRankCore": DISCRETE,
-    # Rather fast
-    "KM_ER": DISCRETE,
-    "KM_config": DISCRETE,
-    "Divisive": DISCRETE,
-    "Rombach": CONTINUOUS,
-    "Rossa": CONTINUOUS,
-    # Fast
-    "MINRES": CONTINUOUS,
-    # Super fast
-    "Rich-core": DISCRETE,
+    # True discrete - single CP
+    "BE": DISCRETE, # extra slow
+    "Lip": DISCRETE, # super fast
+    "LapCore": DISCRETE, # quite fast (for smaller, not so much for larger)
+    "LowRankCore": DISCRETE, # speed similar to LapCore for smaller, memory error for larger
+    "LapSgnCore": DISCRETE, # super fast
+    "Surprise": DISCRETE, # extra slow; there is a faster implementation for this algo, check cpnet repo
+    "Rich-core": DISCRETE, # super fast
+
+    # "Discrete" - multiple pairs of CP
+    "KM_ER": DISCRETE, # quite fast
+    "KM_config": DISCRETE, # quite fast, slower than KM_ER for larger
+    "Divisive": DISCRETE, # depends on the graph (?), even w/ smaller
+    
+    # Continuous
+    "Rombach": CONTINUOUS, # relatively slow for smaller graphs even
+    "Rossa": CONTINUOUS, # quite fast (for smaller graphs)
+    "MINRES": CONTINUOUS, # quite fast!
 }
 
 def continuous(algorithm_name):
@@ -36,7 +37,7 @@ def degree_sequences(graph: nx.Graph, algorithm_name, coreness_map, core_thresho
     Parameters
     ----------
     graph: nx.Graph object
-    algorithm_name: one of cpnet core periphery decomposition algorithms, or rich core decomp algorithm
+    algorithm_name: one of cpnet CP decomposition algorithms, or rich core decomp algorithm
     coreness_map: a dictionary returned by the same algorithm, which tells us 
         the coreness value of each node (0 or 1 if discrete algorithm,
         value between 0 and 1 for a continuous algorithm)

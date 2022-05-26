@@ -3,7 +3,7 @@ import numpy as np
 from utils import read_net
 
 """
-Rich-core core decomposition algorithm from:
+Rich-core CP algorithm from:
 https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0119678
 """
 
@@ -40,8 +40,8 @@ def rich_core_decomp_undir(g : nx.Graph):
     # r^{*} = max_{r} k_{r}^{+}
     r_star = max(kr_plus.items(), key = lambda x : x[1])
     # Undirected rich core is defined as {r : rank[r] > rank[r*]}
-    core = {key : 1 if value < node_rank[r_star[0]] else 0 for key, value in node_rank.items()}
-    return core
+    core_indicator = {key : 1 if value < node_rank[r_star[0]] else 0 for key, value in node_rank.items()}
+    return core_indicator
 
 def rich_core_decomp_dir(g : nx.DiGraph):
     """
@@ -75,8 +75,8 @@ def rich_core_decomp_dir(g : nx.DiGraph):
 
     sigma_plus_total = {node : sigma_plus_r_in[node] + sigma_plus_r_out[node] for node in g.nodes}
     r_star = max(sigma_plus_total.items(), key = lambda x : x[1])
-    core = {key : 1 if value < node_rank[r_star[0]] else 0 for key, value in node_rank.items()}
-    return core
+    core_indicator = {key : 1 if value < node_rank[r_star[0]] else 0 for key, value in node_rank.items()}
+    return core_indicator
 
 # if __name__ == "__main__":
 #     g = nx.karate_club_graph() # testing for rich core undirected version
