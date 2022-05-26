@@ -1,7 +1,6 @@
 import networkx as nx
 import pandas as pd
 from collections import defaultdict
-import cpnet
 
 DISCRETE = 0
 CONTINUOUS = 1
@@ -19,16 +18,17 @@ algorithm_type = {
     "KM_config": DISCRETE,
     "Divisive": DISCRETE,
     "Rombach": CONTINUOUS,
+    "Rossa": CONTINUOUS,
     # Fast
     "MINRES": CONTINUOUS,
-    "Rossa": CONTINUOUS,
+    # Super fast
+    "Rich-core": DISCRETE,
 }
 
-def continuous(algorithm):
-    algo_name = algorithm.__class__.__name__
-    return algorithm_type[algo_name] == CONTINUOUS
+def continuous(algorithm_name):
+    return algorithm_type[algorithm_name] == CONTINUOUS
 
-def degree_sequences(graph: nx.Graph, algorithm: cpnet.CPAlgorithm, coreness_map, core_threshold=0.7):
+def degree_sequences(graph: nx.Graph, algorithm_name, coreness_map, core_threshold=0.7):
     """
     For a given graph (and algorithm), return the core 
     and periphery degree sequences.
@@ -36,7 +36,7 @@ def degree_sequences(graph: nx.Graph, algorithm: cpnet.CPAlgorithm, coreness_map
     Parameters
     ----------
     graph: nx.Graph object
-    algorithm: one of cpnet core periphery decomposition algorithms
+    algorithm_name: one of cpnet core periphery decomposition algorithms, or rich core decomp algorithm
     coreness_map: a dictionary returned by the same algorithm, which tells us 
         the coreness value of each node (0 or 1 if discrete algorithm,
         value between 0 and 1 for a continuous algorithm)
@@ -45,8 +45,7 @@ def degree_sequences(graph: nx.Graph, algorithm: cpnet.CPAlgorithm, coreness_map
         is considered as part of the core, otherwise it's considered as 
         part of the periphery
     """
-    algo_name = algorithm.__class__.__name__
-    if algorithm_type[algo_name] == DISCRETE:
+    if not continuous(algorithm_name):
         periphery_degs = [graph.degree[node] for node in graph.nodes() if coreness_map[node] == 0]
         core_degs = [graph.degree[node] for node in graph.nodes() if coreness_map[node] == 1]
     else:
@@ -114,7 +113,7 @@ def read_csv(graphname, directed=False):
     edges = pd.read_csv(path + "_edges.csv")
     # Adding edges like this is WAY faster than iterating and adding,
     # especially for larger graphs with hundreds of thousands of edges.
-    # For stanford_web graph with 2312497 edges, it took less than 
+    # For example, for a graph with 2312497 edges, it took less than 
     # 6 seconds to add all of them.
     graph.add_edges_from(zip(edges["# source"], edges[" target"]))
 

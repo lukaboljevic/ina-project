@@ -1,27 +1,17 @@
 import networkx as nx
-import utils
 import numpy as np
-import csv
+from utils import read_net
 
-def read_amazon() -> nx.DiGraph:
-    g = nx.DiGraph()
-    for i in range(410236):
-        g.add_node(i)
-
-    with open("./data/amazon/edges.csv", "r") as f:
-        reader = csv.reader(f)
-        counter = 0
-        
-        for i, row in enumerate(reader):
-            if i == 0:
-                continue
-            u = int(row[0])
-            v = int(row[1])
-            g.add_edge(u, v)
-
-    return g
+"""
+Rich-core core decomposition algorithm from:
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0119678
+"""
 
 def rich_core_decomp_undir(g : nx.Graph):
+    """
+    Rich-core CP algorithm for undirected graphs
+    """
+    
     # Unique degrees of the network, sorted in descending order
     unique_deg = np.unique(np.array([g.degree[node] for node in g.nodes]))[::-1]
     # Save indices of descending sorted degrees
@@ -54,6 +44,10 @@ def rich_core_decomp_undir(g : nx.Graph):
     return core
 
 def rich_core_decomp_dir(g : nx.DiGraph):
+    """
+    Rich-core CP algorithm for undirected graphs
+    """
+    
     # Unique in-degrees of the network, sorted in descending order
     unique_in_deg = np.unique(np.array([g.in_degree[node] for node in g.nodes]))[::-1]
     # Save indices of descending sorted degrees
@@ -84,8 +78,8 @@ def rich_core_decomp_dir(g : nx.DiGraph):
     core = {key : 1 if value < node_rank[r_star[0]] else 0 for key, value in node_rank.items()}
     return core
 
-if __name__ == "__main__":
-    g = nx.karate_club_graph() # testing for rich core undirected version
-    # g = read_amazon() # testing for rich core directed version
-    print(sum(rich_core_decomp_undir(g).values()) / g.number_of_nodes())
-    
+# if __name__ == "__main__":
+#     g = nx.karate_club_graph() # testing for rich core undirected version
+#     # g = read_amazon() # testing for rich core directed version
+#     print(sum(rich_core_decomp_undir(g).values()) / g.number_of_nodes())
+

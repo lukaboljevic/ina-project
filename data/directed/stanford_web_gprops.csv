@@ -1,6 +1,0 @@
-# prop_name, value
-name,stanford_web
-description,"The web graph of Stanford University (stanford.edu), as collected in 2002. Nodes represent pages and directed edges represent hyperlinks between them."
-citation,"['J. Leskovec, K. Lang, A. Dasgupta, M. Mahoney. Community Structure in Large Networks: Natural Cluster Sizes and the Absence of Large Well-Defined Clusters. Internet Mathematics 6(1) 29--123, 2009, https://arxiv.org/abs/0810.1355']"
-url,https://snap.stanford.edu/data/web-Stanford.html
-tags,"['Informational', 'Web graph', 'Unweighted']"

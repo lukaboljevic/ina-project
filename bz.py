@@ -1,13 +1,21 @@
-"""
-nodes labeled 1-n
-u in neighbors(G, v): u is a not yet visited
-    neighbor of vertex v in graph G
-
-    we can represent G having a list of neighbors
-"""
 import networkx as nx
 
 def BZ_core_decomp(graph: nx.Graph):
+    """
+    Batagelj Zaversnik O(m) CP algorithm from
+    https://arxiv.org/abs/cs/0310049
+    """
+
+    """
+    Notes while reading the paper:
+
+    nodes labeled 1-n
+    u in neighbors(G, v): u is a not yet visited
+        neighbor of vertex v in graph G
+
+        we can represent G having a list of neighbors
+    """
+
     n = graph.number_of_nodes()
     deg = [graph.degree[node] for node in graph.nodes]
     md = max(deg)

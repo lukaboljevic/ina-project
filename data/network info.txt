@@ -1,0 +1,71 @@
+==================
+=== UNDIRECTED ===
+==================
+
+### Social ###
+    social.net - homework 2 (~10k nodes)
+    friendships - https://networks.skewed.de/net/foursquare_friendships (~114k nodes)
+        Not the greatest choice!
+        I used the "new" network from the above link.
+        Nodes represent people and edges represent a mutual declaration of friendship.
+
+    marker_cafe - https://networks.skewed.de/net/marker_cafe (~69k nodes)
+        maybe better than friendships network, but has a lot of edges
+
+### Informational ###
+    movielens_100k - https://networks.skewed.de/net/movielens_100k (~24k nodes)
+        bipartite:
+        Left nodes are tags and right nodes are movies. An edge shows that a tag was applied to a movie.
+
+    wordnet - https://networks.skewed.de/net/wordnet (~146k nodes)
+        Node is a word, and edge denotes relationships between words (synonymy, hyperonymy, meronymy, etc.)
+
+### Biological ###
+    nematode_mammal - https://networks.skewed.de/net/nematode_mammal (~30k nodes)
+        A global interaction web of interactions between nematodes and their host mammal species, 
+        extracted from the helminthR package and dataset. Nodes are annotated with species-level 
+        information. (multiple networks?)
+
+### Technological ###
+    internet_as - https://networks.skewed.de/net/internet_as (~23k nodes)
+        Sort of power law, not the best!
+
+================
+=== DIRECTED ===
+================
+
+### Social ###
+    anybeat - https://networks.skewed.de/net/anybeat (~12k nodes)
+        Nodes are users and links represent friendships. 
+        The edge direction (i, j) denotes the user i follows user j.
+
+    enron.net - vaje 6, email network (~87k nodes)
+        Node i links to node j if i sent at least one email to address j.
+
+### Biological ###
+    genetic_multiplex (Homo) - https://networks.skewed.de/net/genetic_multiplex (~18k nodes)
+        Multiplex networks representing different types of genetic interactions, for different 
+        organisms. Layers represent (i) physical, (ii) association, (iii) co-localization, (iv) 
+        direct, and (v) suppressive, (vi) additive or synthetic genetic interaction. Edge direction 
+        (i,j) indicates gene i interacting with gene j.
+
+### Technological ###
+    linux - https://networks.skewed.de/net/linux (~30k nodes), not perfect
+        A network of Linux (v3.16) source code file inclusion. 
+        Nodes represent source files and a directed edge indicates if one file includes another.
+
+    caida_as - https://networks.skewed.de/net/caida_as (~26k nodes, smaller, maybe better than linux?)
+        A sequence of 122 network snapshots denoting Autonomous System (AS) relationships on the 
+        Internet, from 2004-2007, inferred using the Serial-1 method from RouteViews BGP table 
+        snapshots and a set of heuristics.
+
+    nec.net - vaje 11, Internet overlay map (~76k nodes)
+
+    python_dependency - https://networks.skewed.de/net/python_dependency (We already have a big 
+    directed network for this domain, but could be useful) (~58k nodes)
+        Python's package dependency networks. Nodes in the network are Python's packages registered 
+        to PyPI and edges are dependencies among packages.
+
+### Informational ###
+    cora - https://networks.skewed.de/net/cora (~23k nodes)
+        If a paper i cites a paper j also in this data set, then a directed edge connects i to j.

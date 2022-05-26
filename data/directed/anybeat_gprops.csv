@@ -1,6 +1,0 @@
-# prop_name, value
-name,anybeat
-description,"A snapshot of the Anybeat online social network from 2013, before it was shut down. Nodes are users and links represent friendships. The edge direction (i, j) denotes the user i follows user j."
-citation,"['M. Fire, R. Puzis, & Y. Elovici. \"Link prediction in highly fractional data sets.\" In Handbook of Computational Approaches to Counterterrorism. Springer, pp. 283-300 (2013), https://homes.cs.washington.edu/~fire/pdf/Link_Prediction_in_Highly_Fractional_Dat.pdf']"
-url,https://homes.cs.washington.edu/~fire/#section3
-tags,"['Social', 'Online', 'Unweighted']"

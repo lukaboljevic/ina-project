@@ -1,5 +1,6 @@
-- First site is the bests. However for biological networks all networks that are satisfiable
-  have been extracted. Other sites either have non-supported formats, huge/small network sizes
-  or the network is underdescribed.
+- https://networks.skewed.de/ is the best site for networks. 
+    However, for biological networks all networks that are satisfiable
+    have been extracted. Other sites either have non-supported formats, 
+    huge/small network sizes or the network is underdescribed.
 
-  - More or less same for undirected technological networks.
+- More or less same for undirected technological networks.
