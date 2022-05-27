@@ -2,6 +2,7 @@ import glob
 import cpnet
 import matplotlib.pyplot as plt
 from utils import read_net, read_csv, degree_distribution, degree_sequences, continuous
+from rc import rich_core_decomp_undir, rich_core_decomp_dir
 
 def plot_network(network_name, directed):
     """
@@ -62,7 +63,7 @@ def plot_all(network_name, directed, algorithm, plot_decomp=False):
     if isinstance(algorithm, cpnet.CPAlgorithm):
         algorithm_name = algorithm.__class__.__name__
     else:
-        algorithm_name = "Rich-core"
+        algorithm_name = "Rich_core"
     
     fig_path = f"results/{orientation}/{network_name}-{algorithm_name}"
     if glob.glob(fig_path + "*.png"):
@@ -161,21 +162,19 @@ if __name__ == "__main__":
         ("python_dependency", True), # technological, better than caida even if bigger
     ]
 
-    # TODO: make sure to mention rich core is bad because of how it splits the nodes
-    # cpnet.Lip is useless for the same reason
-    
     # Chosen algorithms (cause they are fast B); at least one from every family)
     fast_algorithms = [
         # Continuous
-        # cpnet.MINRES(),
-        # cpnet.Rossa(),
+        cpnet.MINRES(),
+        cpnet.Rossa(),
 
         # Multiple pairs of CP (which will be converted to single)
-        # cpnet.KM_ER(),
+        cpnet.KM_ER(),
 
         # Single pair of CP
-        # cpnet.LapSgnCore(),
+        cpnet.LapSgnCore(),
         cpnet.LapCore(),
+        cpnet.Lip(),
     ]
 
     for algorithm in fast_algorithms:
@@ -183,3 +182,13 @@ if __name__ == "__main__":
             print(f"Network: {network_info[0]}, algorithm: {algorithm.__class__.__name__}")
             plot_all(*network_info, algorithm)
         print("\n=========================================================\n")
+
+    for network_info in small_networks[:4]:
+        # First 4 are undirected networks
+        print(f"Network: {network_info[0]}, algorithm: Rich_core")
+        plot_all(*network_info, rich_core_decomp_undir)
+
+    for network_info in small_networks[4:]:
+        # Second 4 are directed networks
+        print(f"Network: {network_info[0]}, algorithm: Rich_core")
+        plot_all(*network_info, rich_core_decomp_dir)

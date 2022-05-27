@@ -16,7 +16,7 @@ algorithm_type = {
     "LowRankCore": DISCRETE, # speed similar to LapCore for smaller, memory error for larger
     "LapSgnCore": DISCRETE, # super fast
     "Surprise": DISCRETE, # extra slow; there is a faster implementation for this algo, check cpnet repo
-    "Rich-core": DISCRETE, # super fast, useless
+    "Rich_core": DISCRETE, # super fast
 
     # "Discrete" - multiple pairs of CP
     "KM_ER": DISCRETE, # quite fast

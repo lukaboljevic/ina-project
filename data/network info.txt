@@ -4,6 +4,7 @@
 
 ### Social ###
     social.net - homework 2 (~10k nodes)
+        I believe these are HIV contacts (contact tracing)
     friendships - https://networks.skewed.de/net/foursquare_friendships (~114k nodes)
         Not the greatest choice!
         I used the "new" network from the above link.
