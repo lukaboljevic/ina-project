@@ -9,7 +9,7 @@ https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0119678
 
 def rich_core_decomp_undir(g : nx.Graph):
     """
-    Rich-core CP algorithm for undirected graphs
+    Rich-core CP algorithm for undirected networks
     """
     
     # Unique degrees of the network, sorted in descending order
@@ -45,7 +45,7 @@ def rich_core_decomp_undir(g : nx.Graph):
 
 def rich_core_decomp_dir(g : nx.DiGraph):
     """
-    Rich-core CP algorithm for undirected graphs
+    Rich-core CP algorithm for undirected networks
     """
     
     # Unique in-degrees of the network, sorted in descending order

@@ -17,9 +17,9 @@ Next, install the requirements from `requirements.txt` with `pip install -r requ
 
 # Repository "walkthrough"
 
-The folder `data` contains all (and more) graphs used for testing. They are split into two folders - `directed` and `undirected`, and each folder contains the respective graphs. The file `network info.txt` contains the information about: (1) what type of graph it is (social, technological...), (2) the link where it was found.
+The folder `data` contains all (and more) networks used for testing. They are split into two folders - `directed` and `undirected`, and each folder contains the respective networks. The file `network info.txt` contains the information about: (1) what type of network it is (social, technological...), (2) the link where it was found.
 
-The folder `results` contains the, well, results of the testing - a figure with 3 plots (one for the entire graph, one for the core, and one for the periphery) for every graph and algorithm tested.
+The folder `results` contains the, well, results of the testing - a figure with 3 plots (one for the entire network, one for the core, and one for the periphery) for every network and algorithm tested.
 
 `bz.py` contains the implementation of Batagelj and Zaveršnik's $O(m)$ CP algorithm. Currently it is not used.
 

@@ -6,23 +6,26 @@ DISCRETE = 0
 CONTINUOUS = 1
 
 algorithm_type = {
+    # NOTE: "smaller network" means smaller out of these that are present
+    # in this project - so networks w/ around 20-50k nodes
+
     # True discrete - single CP
     "BE": DISCRETE, # extra slow
-    "Lip": DISCRETE, # super fast
+    "Lip": DISCRETE, # super fast, useless
     "LapCore": DISCRETE, # quite fast (for smaller, not so much for larger)
     "LowRankCore": DISCRETE, # speed similar to LapCore for smaller, memory error for larger
     "LapSgnCore": DISCRETE, # super fast
     "Surprise": DISCRETE, # extra slow; there is a faster implementation for this algo, check cpnet repo
-    "Rich-core": DISCRETE, # super fast
+    "Rich-core": DISCRETE, # super fast, useless
 
     # "Discrete" - multiple pairs of CP
     "KM_ER": DISCRETE, # quite fast
     "KM_config": DISCRETE, # quite fast, slower than KM_ER for larger
-    "Divisive": DISCRETE, # depends on the graph (?), even w/ smaller
+    "Divisive": DISCRETE, # depends on the network (?), even w/ smaller
     
     # Continuous
-    "Rombach": CONTINUOUS, # relatively slow for smaller graphs even
-    "Rossa": CONTINUOUS, # quite fast (for smaller graphs)
+    "Rombach": CONTINUOUS, # relatively slow for smaller networks even
+    "Rossa": CONTINUOUS, # quite fast (for smaller networks)
     "MINRES": CONTINUOUS, # quite fast!
 }
 
@@ -31,7 +34,7 @@ def continuous(algorithm_name):
 
 def degree_sequences(graph: nx.Graph, algorithm_name, coreness_map, core_threshold=0.7):
     """
-    For a given graph (and algorithm), return the core 
+    For a given network (and algorithm), return the core 
     and periphery degree sequences.
 
     Parameters
@@ -55,23 +58,23 @@ def degree_sequences(graph: nx.Graph, algorithm_name, coreness_map, core_thresho
     
     return periphery_degs, core_degs
 
-def read_net(graphname, directed=False):
+def read_net(network_name, directed=False):
     """
-    Read a graph from the given file. 
+    Read a network from the given file. 
 
-    Parameter "graphname" is given without .net extension.
+    Parameter "network_name" is given without .net extension.
 
-    Parameter "directed" indicates whether the graph is directed.
+    Parameter "directed" indicates whether the network is directed.
     By default it is False, meaning the function returns a Graph object.
     In the case it's True, the function returns a DiGraph object.
     """
     if directed:
-        graph = nx.DiGraph(name=graphname)
+        graph = nx.DiGraph(name=network_name)
     else:
-        graph = nx.Graph(name=graphname)
+        graph = nx.Graph(name=network_name)
 
     folder = "directed" if directed else "undirected"
-    path = f"data/{folder}/{graphname}.net"
+    path = f"data/{folder}/{network_name}.net"
     with open(path, 'r', encoding='utf8') as f:
         f.readline()
         
@@ -90,31 +93,31 @@ def read_net(graphname, directed=False):
 
     return graph
 
-def read_csv(graphname, directed=False):
+def read_csv(network_name, directed=False):
     """
-    Read a graph from pairs of .csv files. 
+    Read a network from pairs of .csv files. 
 
-    Parameter "graphname" is given without any extensions or additional stuff.
+    Parameter "network_name" is given without any extensions or additional stuff.
 
-    Parameter "directed" indicates whether the graph is directed.
+    Parameter "directed" indicates whether the network is directed.
     By default it is False, meaning the function returns a Graph object.
     In the case it's True, the function returns a DiGraph object.
     """
     if directed:
-        graph = nx.DiGraph(name=graphname)
+        graph = nx.DiGraph(name=network_name)
     else:
-        graph = nx.Graph(name=graphname)
+        graph = nx.Graph(name=network_name)
 
     folder = "directed" if directed else "undirected"
-    path = f"data/{folder}/{graphname}"
+    path = f"data/{folder}/{network_name}"
     
     nodes = pd.read_csv(path + "_nodes.csv")
     graph.add_nodes_from(range(len(nodes)))
 
     edges = pd.read_csv(path + "_edges.csv")
     # Adding edges like this is WAY faster than iterating and adding,
-    # especially for larger graphs with hundreds of thousands of edges.
-    # For example, for a graph with 2312497 edges, it took less than 
+    # especially for larger networks with hundreds of thousands of edges.
+    # For example, for a network with 2312497 edges, it took less than 
     # 6 seconds to add all of them.
     graph.add_edges_from(zip(edges["# source"], edges[" target"]))
 
