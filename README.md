@@ -21,8 +21,8 @@ The folder `data` contains all (and more) networks used for testing. They are sp
 
 The folder `results` contains the, well, results of the testing - a figure with 3 plots (one for the entire network, one for the core, and one for the periphery) for every network and algorithm tested.
 
-`bz.py` contains the implementation of Batagelj and Zaveršnik's $O(m)$ CP algorithm. Currently it is not used.
+`bz.py` contains the implementation of Batagelj and Zaveršnik's $O(m)$ CP algorithm. Currently it is not used. The paper is linked inside the file.
 
-`rc.py` contains the implementation of a CP algorithm based on the rich club effect, described in the paper linked in that same file.
+`rc.py` contains the implementation of a CP algorithm based on the rich club effect (called **Rich-core** algorithm), described in the paper linked in the same file.
 
 `code.py` contains the "main" part of the code.
